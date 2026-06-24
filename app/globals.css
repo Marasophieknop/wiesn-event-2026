@@ -1,26 +1,122 @@
 @import "tailwindcss";
 
+/* ── Building Radar × Wiesn — Brand-Farben ──────────────────────────────
+   Offizielle Building-Radar-Palette. Night Blue trägt Headlines & Text,
+   Brilliant Red ausschließlich CTAs + das Wort „Wiesn", Indigo die
+   Section-Labels & Links. Gold nur als festlicher Bruch in der Timeline. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --night: #171c32; /* Night Blue   — Headlines, Text, dunkle BGs */
+  --red: #f6173b; /* Brilliant Red — CTAs, „Wiesn." (sparsam)   */
+  --red-deep: #d10e2f; /* Hover-Zustand CTAs                       */
+  --indigo: #2b2893; /* Indigo        — Labels, Links             */
+  --indigo-deep: #211e74;
+  --white: #ffffff;
+  --gray-light: #f5f5f7; /* Section-Hintergründe        */
+  --gray-mid: #8a8b9c; /* Sekundärtext, Captions      */
+  --border: #e5e5ea; /* Borders, Dividers           */
+  --gold: #c68a1e; /* festlicher Akzent (Wiesn)   */
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-night: var(--night);
+  --color-red: var(--red);
+  --color-red-deep: var(--red-deep);
+  --color-indigo: var(--indigo);
+  --color-indigo-deep: var(--indigo-deep);
+  --color-white: var(--white);
+  --color-gray-light: var(--gray-light);
+  --color-gray-mid: var(--gray-mid);
+  --color-border: var(--border);
+  --color-gold: var(--gold);
+
+  --font-display: var(--font-roboto);
+  --font-body: var(--font-roboto);
+  --font-mono: var(--font-roboto);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  border-color: var(--border);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--white);
+  color: var(--night);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
+
+::selection {
+  background: var(--red);
+  color: #fff;
+}
+
+/* Eyebrow / data labels — Mono-Register */
+.label {
+  font-family: var(--font-mono), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+.font-mono {
+  font-family: var(--font-mono), monospace;
+}
+
+/* ── CSS-Fallback fürs Hero-Tuch (Mobile / kein WebGL) ──────────────────
+   Bayerisches Rautenmuster aus zwei versetzten 45°-Verläufen, das langsam
+   driftet — die ruhige Variante der 3D-Cloth.                            */
+.raute-fallback {
+  background-color: var(--white);
+  background-image:
+    linear-gradient(
+      45deg,
+      #009fe3 25%,
+      transparent 25%,
+      transparent 75%,
+      #009fe3 75%
+    ),
+    linear-gradient(
+      45deg,
+      #009fe3 25%,
+      transparent 25%,
+      transparent 75%,
+      #009fe3 75%
+    );
+  background-size: 30px 48px; /* hochkant gezogene, kleine Rauten */
+  background-position:
+    0 0,
+    15px 24px;
+  opacity: 0.9;
+  animation: raute-drift 30s linear infinite;
+}
+
+@keyframes raute-drift {
+  to {
+    background-position:
+      30px 48px,
+      45px 72px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
